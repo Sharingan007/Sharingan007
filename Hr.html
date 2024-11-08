@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Horários das Turmas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .menu, .all-schedule {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .buttons-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .day-section {
+            margin: 10px 0;
+            width: 90%;
+            text-align: center;
+        }
+        .day-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .class-schedule {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .class-box {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            text-align: left;
+        }
+        .back-button {
+            margin-top: 20px;
+            padding: 8px 16px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            border-radius: 5px;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu">
+        <h1>Horários de Todas as Turmas</h1>
+        <div class="buttons-container">
+            <button class="button" onclick="showAllSchedule()">Ver Todos os Dias e Turmas</button>
+        </div>
+    </div>
+
+    <div class="all-schedule" id="all-schedule" style="display: none;">
+        <h2>Todos os Dias e Horários</h2>
+        <div id="schedule-container"></div>
+        <button class="back-button" onclick="goBack()">Voltar</button>
+    </div>
+
+    <script>
+        const scheduleData = {
+            "Segunda-Feira": {
+                "1EMCB1": "Fundamentos de Informática e Sistemas Operacionais",
+                "1EMCB2": "Rede de Computadores e Hardware / Lógica de Programação / Introdução a Web",
+                "2EMCB": "Programação Web",
+                "1EMCC": "Química Inorgânica",
+                "1EMCA": "Comportamento Organizacional e Liderança"
+            },
+            "Terça-Feira": {
+                "1EMCB1": "Rede de Computadores e Hardware",
+                "1EMCB2": "Fundamentos de Informática e Sistemas Operacionais",
+                "2EMCB": "Modelagem de Sistemas",
+                "7Ano": "Educação Digital",
+                "1EMCA": "Gestão Empresarial"
+            },
+            "Quarta-Feira": {
+                "1EMCB1": "Projeto Integrador",
+                "1EMCB2": "Rede de Computadores e Hardware",
+                "1EMCA": "Informática Aplicada",
+                "2EMCB": "Programação Orientada a Objetos / Design Digital",
+                "6Ano": "Educação Digital"
+            },
+            "Quinta-Feira": {
+                "1EMCB1": "Rede de Computadores e Hardware / Fundamentos de Informática e Sistemas Operacionais",
+                "1EMCB2": "Fundamentos de Informática e Sistemas Operacionais / Lógica de Programação",
+                "1EMCC": "Informática Aplicada",
+                "2EMCB": "Banco de Dados"
+            },
+            "Sexta-Feira": {
+                "1EMCB1": "Lógica de Programação / Introdução a Web",
+                "1EMCB2": "Projeto Integrador",
+                "6Ano": "Educação Digital",
+                "8Ano": "Educação Digital",
+                "9Ano": "Educação Digital",
+                "2EMCB": "Projeto Prático"
+            }
+        };
+
+        function showAllSchedule() {
+            document.querySelector('.menu').style.display = 'none';
+            document.getElementById('all-schedule').style.display = 'block';
+            const scheduleContainer = document.getElementById('schedule-container');
+            scheduleContainer.innerHTML = '';
+
+            for (const [day, classes] of Object.entries(scheduleData)) {
+                const daySection = document.createElement('div');
+                daySection.classList.add('day-section');
+
+                const dayTitle = document.createElement('h3');
+                dayTitle.classList.add('day-title');
+                dayTitle.innerText = day;
+                daySection.appendChild(dayTitle);
+
+                const classSchedule = document.createElement('div');
+                classSchedule.classList.add('class-schedule');
+
+                for (const [className, subject] of Object.entries(classes)) {
+                    const classBox = document.createElement('div');
+                    classBox.classList.add('class-box');
+                    classBox.innerHTML = `<strong>${className}</strong><br>${subject}`;
+                    classSchedule.appendChild(classBox);
+                }
+
+                daySection.appendChild(classSchedule);
+                scheduleContainer.appendChild(daySection);
+            }
+        }
+
+        function goBack() {
+            document.querySelector('.menu').style.display = 'flex';
+            document.getElementById('all-schedule').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
